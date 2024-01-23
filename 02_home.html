@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+
+      .form-container {
+        display: flex;
+        flex-direction: column;
+        width: 500px;
+        border: 5px solid red;
+        padding: 10px;
+        border-radius: 10px;
+        position: relative;
+      }
+
+      .form-title {
+        position: absolute;
+        top: -10px;
+        left: 10px;
+        background-color: white;
+        padding: 0 5px;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .form-column {
+        border-bottom: 1px dashed #d3d3d3;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        position: relative;
+      }
+      .input-field {
+        margin-bottom: 5px;
+        position: relative;
+      }
+
+      .error-message {
+        color: red;
+        font-size: 15px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateY(-50%);
+      }
+
+      .correct-message {
+        color: green;
+        font-size: 15px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateY(-50%);
+      }
+
+      .rule-message {
+        font-size: 12px;
+        color: #a9a9a9;
+        margin-top: 5px;
+      }
+    </style>
+    <title>Form Check</title>
+  </head>
+  <body>
+    <div class="form-container">
+      <div class="form-title">Form Check</div>
+      <div class="form-column" id="nameColumn">
+        <div class="input-field">
+          <label for="name">姓名：</label>
+          <input type="text" id="name" placeholder="請輸入姓名" />
+          <img
+            id="errorIcon1"
+            src="Error.jpg"
+            alt="Error Icon"
+            style="display: none; width: 16px; height: 16px"
+          />
+          <img
+            id="correctIcon1"
+            src="Correct.jpg"
+            alt="Correct Icon"
+            style="display: none; width: 16px; height: 16px"
+          />
+          <div class="error-message" id="nameError"></div>
+          <div class="correct-message" id="nameCorrect"></div>
+        </div>
+        <span class="rule-message"
+          >(1.不可空白 2.至少兩個字以上 3.必須全部為中文字)</span
+        >
+      </div>
+
+      <div class="form-column" id="passwordColumn">
+        <div class="input-field">
+          <label for="password">密碼：</label>
+          <input type="password" id="password" placeholder="請輸入密碼" />
+          <img
+            id="errorIcon2"
+            src="Error.jpg"
+            alt="Error Icon"
+            style="display: none; width: 16px; height: 16px"
+          />
+          <img
+            id="correctIcon2"
+            src="Correct.jpg"
+            alt="Correct Icon"
+            style="display: none; width: 16px; height: 16px"
+          />
+          <div class="error-message" id="passwordError"></div>
+          <div class="correct-message" id="passwordCorrect"></div>
+        </div>
+        <span class="rule-message"
+          >(1.不可空白 2.至少6個字且必須包含英數字、特殊字元[!@#$%^&*])</span
+        >
+      </div>
+
+      <div class="form-column" id="dateColumn">
+        <div class="input-field">
+          <label for="date">日期：</label>
+          <input type="text" id="date" placeholder="請輸入日期" />
+          <img
+            id="errorIcon3"
+            src="Error.jpg"
+            alt="Error Icon"
+            style="display: none; width: 16px; height: 16px"
+          />
+          <img
+            id="correctIcon3"
+            src="Correct.jpg"
+            alt="Correct Icon"
+            style="display: none; width: 16px; height: 16px"
+          />
+          <div class="error-message" id="dateError"></div>
+          <div class="correct-message" id="dateCorrect"></div>
+        </div>
+        <span class="rule-message">格式:西元年/月/日(yyyy/mm/dd)</span>
+      </div>
+    </div>
+
+    <script>
+      document.getElementById("name").addEventListener("blur", validateName);
+      document
+        .getElementById("password")
+        .addEventListener("blur", validatePassword);
+      document.getElementById("date").addEventListener("blur", validateDate);
+
+      function validateName() {
+        const nameInput = document.getElementById("name");
+        const nameError = document.getElementById("nameError");
+        const nameCorrect = document.getElementById("nameCorrect");
+        const nameValue = nameInput.value.trim();
+
+        // 取得圖片元素
+        const errorIcon1 = document.getElementById("errorIcon1");
+        const correctIcon1 = document.getElementById("correctIcon1");
+
+        if (nameValue === "") {
+          nameError.textContent = "姓名不可為空白";
+          nameCorrect.textContent = "";
+          errorIcon1.style.display = "inline";
+          correctIcon1.style.display = "none";
+        } else if (!/^[^\x00-\xff]+$/.test(nameValue)) {
+          nameError.textContent = "必須全部為中文字";
+          nameCorrect.textContent = "";
+          errorIcon1.style.display = "inline";
+          correctIcon1.style.display = "none";
+        } else if (nameValue.length < 2) {
+          nameError.textContent = "至少兩個字以上";
+          nameCorrect.textContent = "";
+          errorIcon1.style.display = "inline";
+          correctIcon1.style.display = "none";
+        } else {
+          nameError.textContent = "";
+          nameCorrect.textContent = "正確";
+          errorIcon1.style.display = "none";
+          correctIcon1.style.display = "inline";
+        }
+      }
+
+      function validatePassword() {
+        const passwordInput = document.getElementById("password");
+        const passwordError = document.getElementById("passwordError");
+        const passwordCorrect = document.getElementById("passwordCorrect");
+        const passwordValue = passwordInput.value;
+
+        // 取得圖片元素
+        const errorIcon2 = document.getElementById("errorIcon2");
+        const correctIcon2 = document.getElementById("correctIcon2");
+
+        if (passwordValue === "") {
+          errorIcon2.style.display = "inline";
+          passwordError.textContent = "密碼不可為空白";
+          passwordCorrect.textContent = ""; // 清空正確提示
+          correctIcon2.style.display = "none";
+        } else if (
+          !/^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/.test(
+            passwordValue
+          )
+        ) {
+          errorIcon2.style.display = "inline";
+          passwordError.textContent =
+            "至少6個字，必須包含英數字和特殊字元[!@#$%^&*]";
+          passwordCorrect.textContent = ""; // 清空正確提示
+          correctIcon2.style.display = "none";
+        } else {
+          passwordError.textContent = "";
+          errorIcon2.style.display = "none";
+          passwordCorrect.textContent = "正確"; // 顯示正確提示
+          correctIcon2.style.display = "inline";
+        }
+      }
+
+      function validateDate() {
+        const dateInput = document.getElementById("date");
+        const dateError = document.getElementById("dateError");
+        const dateCorrect = document.getElementById("dateCorrect");
+        const dateValue = dateInput.value;
+
+        // 取得圖片元素
+        const errorIcon3 = document.getElementById("errorIcon3");
+        const correctIcon3 = document.getElementById("correctIcon3");
+
+        // 將日期字串轉換為 Date 物件
+        const parsedDate = new Date(dateValue);
+
+        if (!/^\d{4}\/\d{2}\/\d{2}$/.test(dateValue)) {
+          errorIcon3.style.display = "inline";
+          dateError.textContent = "日期格式應為yyyy/mm/dd";
+          dateCorrect.textContent = "";
+          correctIcon3.style.display = "none";
+        } else if (isNaN(parsedDate.getTime())) {
+          errorIcon3.style.display = "inline";
+          dateError.textContent = "無效日期";
+          dateCorrect.textContent = "";
+          correctIcon3.style.display = "none";
+        } else {
+          dateError.textContent = "";
+          errorIcon3.style.display = "none";
+          dateCorrect.textContent = "正確";
+          correctIcon3.style.display = "inline";
+        }
+      }
+    </script>
+  </body>
+</html>

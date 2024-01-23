@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>99乘法表</title>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 50%;
+        margin: 20px auto;
+        border: 5px solid #00bfff;
+        
+      }
+
+      td {
+        padding: 1px;
+        text-align: center;
+        color: red;
+        background-color: #99ffff8f;
+        border-left: 2px solid #00bfff;
+        border-right: 2px solid #00bfff;
+      }
+     h2{
+      text-align: center;
+     }
+    </style>
+  </head>
+  <body>
+    <h2>99乘法表</h2>
+
+    <table>
+      <tbody>
+        <!-- 使用 JavaScript 生成乘法表格內容 -->
+      </tbody>
+    </table>
+
+    <script>
+      // 獲取 table 元素
+      var table = document.querySelector("table");
+      var tbody = table.querySelector("tbody");
+
+      // 生成99乘法表格內容
+      for (var i = 1; i <= 9; i++) {
+        var row = document.createElement("tr");
+
+        for (var j = 2; j <= 9; j++) {
+          var cell = document.createElement("td");
+
+          // 在每一格中顯示 I*J=結果
+          cell.textContent = `${j}*${i}=${i * j}`;
+
+          row.appendChild(cell);
+        }
+
+        tbody.appendChild(row);
+      }
+    </script>
+  </body>
+</html>

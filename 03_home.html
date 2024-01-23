@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      background-color: #ccc; /* 灰色背景色 */
+      padding: 20px;
+      display: inline-block; /* 只包含內容的大小 */
+    }
+
+    .rating {
+      display: inline-block;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .rating .star {
+      margin: 0 2px;
+      font-size: 2em;
+      display: inline-block;
+      background: linear-gradient(to right, gold 50%, darkorange 50%);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .rating .star:hover,
+    .rating .star.active,
+    .rating:hover .star {
+      background: linear-gradient(to right, gold 50%, darkorange 50%);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .rating .star:not(.active) {
+      color: white; /* 未點擊的星星為白色 */
+    }
+
+    .rating-text {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+
+    .instruction {
+      font-style: italic;
+    }
+  </style>
+<body>
+
+<div class="container">
+  <div class="rating" id="rating">
+    <span class="star" onmouseover="showRating(1)" onmouseout="resetRating()" onclick="rate(1)">★</span>
+    <span class="star" onmouseover="showRating(2)" onmouseout="resetRating()" onclick="rate(2)">★</span>
+    <span class="star" onmouseover="showRating(3)" onmouseout="resetRating()" onclick="rate(3)">★</span>
+    <span class="star" onmouseover="showRating(4)" onmouseout="resetRating()" onclick="rate(4)">★</span>
+    <span class="star" onmouseover="showRating(5)" onmouseout="resetRating()" onclick="rate(5)">★</span>
+  </div>
+
+  <div class="instruction">單擊星星可評分，雙擊星星重置。</div>
+  <div class="rating-text" id="ratingText"></div>
+</div>
+
+<script>
+  let currentRating = 0;
+  let hoverRating = 0;
+
+  function rate(rating) {
+    currentRating = rating;
+    highlightStars();
+    document.getElementById('ratingText').innerText = '你給' + rating + '顆星';
+  }
+
+  function highlightStars() {
+    const stars = document.querySelectorAll('.rating .star');
+
+    stars.forEach((star, index) => {
+      if (index < currentRating) {
+        star.classList.add('active');
+      } else {
+        star.classList.remove('active');
+      }
+    });
+  }
+
+  function showRating(rating) {
+    hoverRating = rating;
+    document.getElementById('ratingText').innerText = '評分為 ' + hoverRating;
+    highlightStarsOnHover(rating);
+  }
+
+  function highlightStarsOnHover(hoverRating) {
+    const stars = document.querySelectorAll('.rating .star');
+
+    stars.forEach((star, index) => {
+      if (index < hoverRating) {
+        star.classList.add('active');
+      } else {
+        star.classList.remove('active');
+      }
+    });
+  }
+
+  function resetRating() {
+    document.getElementById('ratingText').innerText = '你給' + currentRating + '顆星';
+    highlightStars();
+  }
+
+  document.getElementById('rating').addEventListener('dblclick', function () {
+    currentRating = 0;
+    highlightStars();
+    document.getElementById('ratingText').innerText = '';
+  });
+</script>
+
+</body>
+</html>

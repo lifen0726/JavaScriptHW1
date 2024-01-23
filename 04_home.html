@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>廣告輪播</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      #slider-container {
+        width: 100%;
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+        position: relative;
+      }
+
+      .slide {
+        min-width: 100%;
+        box-sizing: border-box;
+      }
+
+      img {
+        width: 500px; /* 調整圖片大小 */
+        height: auto;
+      }
+
+      .slider-buttons {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+      }
+
+      .slider-button {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background-color: #555;
+        margin: 0 5px;
+        cursor: pointer;
+      }
+
+      #slide-count {
+        color: #555;
+        margin: 0 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="slider-container">
+      <div class="slide">
+        <img src="廣告1.jpg" alt="廣告1" />
+      </div>
+      <div class="slide">
+        <img src="廣告2.jpg" alt="廣告2" />
+      </div>
+      <div class="slide">
+        <img src="廣告3.jpg" alt="廣告3" />
+      </div>
+    </div>
+
+    <div class="slider-buttons">
+      <div class="slider-button" onclick="goToSlide(0)"></div>
+      <div class="slider-button" onclick="goToSlide(1)"></div>
+      <div class="slider-button" onclick="goToSlide(2)"></div>
+      <div id="slide-count"></div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const sliderContainer = document.getElementById("slider-container");
+        const slides = document.querySelectorAll(".slide");
+        const buttons = document.querySelectorAll(".slider-button");
+        const slideCount = document.getElementById("slide-count");
+
+        let currentIndex = 0;
+        const slideWidth = slides[0].clientWidth;
+
+        function startAutoPlay() {
+          setInterval(() => {
+            nextSlide();
+          }, 3000);
+        }
+
+        function nextSlide() {
+          if (currentIndex < slides.length - 1) {
+            currentIndex++;
+          } else {
+            currentIndex = 0;
+          }
+          updateSlider();
+        }
+
+        function goToSlide(index) {
+          currentIndex = index;
+          updateSlider();
+        }
+
+        function updateSlider() {
+          const newTransformValue = -currentIndex * slideWidth;
+          sliderContainer.style.transform = `translateX(${newTransformValue}px)`;
+
+          // 更新按鈕狀態和計數器
+          buttons.forEach((button, index) => {
+            button.style.backgroundColor =
+              index === currentIndex ? "#fff" : "#555";
+          });
+
+          slideCount.textContent = `第 ${currentIndex + 1} 張 / 共 ${
+            slides.length
+          } 張`;
+        }
+
+        startAutoPlay();
+        updateSlider(); // 初始化輪播器
+      });
+    </script>
+  </body>
+</html>
